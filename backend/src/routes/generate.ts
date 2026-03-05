@@ -1,5 +1,10 @@
 import { Router, Request, Response } from "express";
-import { validate, generate, PasswordOptions } from "../lib/password";
+import {
+  validate,
+  generate,
+  PasswordOptions,
+  verifyPassword,
+} from "../lib/password";
 
 const router = Router();
 
@@ -13,6 +18,13 @@ router.get("/", (req: Request, res: Response) => {
   }
 
   const password = generate(options);
+
+  if (!verifyPassword(password, options)) {
+    res
+      .status(500)
+      .json({ error: "Generated password did not meet requirements" });
+    return;
+  }
   res.status(200).type("text/plain; charset=utf-8").send(password);
 });
 

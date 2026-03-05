@@ -28,6 +28,8 @@ export function generate(opts: PasswordOptions): string {
     opts.useSpecialChar && CHARS.special,
   ].filter(Boolean) as string[];
 
+
+
   const combined = pools.join("");
   const chars = [
     ...pools.map(pool => pool[Math.floor(Math.random() * pool.length)]),
@@ -35,4 +37,12 @@ export function generate(opts: PasswordOptions): string {
   ];
 
   return chars.sort(() => Math.random() - 0.5).join("");
+}
+
+export function verifyPassword(password: string, opts: PasswordOptions): boolean {
+  if (opts.useUpperCase && !/[A-Z]/.test(password)) return false;
+  if (opts.useLowerCase && !/[a-z]/.test(password)) return false;
+  if (opts.useNumber && !/[0-9]/.test(password)) return false;
+  if (opts.useSpecialChar && !/[!"#$%&'()*+,\-./:;<=>?@[\\\]^_{|}~]/.test(password)) return false;
+  return true;
 }
