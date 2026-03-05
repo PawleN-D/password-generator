@@ -27,7 +27,6 @@ function parseOptions(query: Request["query"]): PasswordOptions {
   };
 }
 
-/** Accepts "true"/"false" strings; falls back to defaultValue for missing params. */
 function parseBool(value: unknown, defaultValue: boolean): boolean {
   if (value === undefined || value === null) return defaultValue;
   if (typeof value === "string") return value.toLowerCase() !== "false";
